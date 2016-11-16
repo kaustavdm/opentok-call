@@ -1,0 +1,82 @@
+/**
+ * OpenTok-Call main server script
+ *
+ * This script starts the application server by mounting all the
+ * necessary routes, loading configuration and creating a handler to
+ * OpenTok's server side SDK.
+ */
+
+// Load dependencies -----------------------------
+const express = require("express");
+const opentok = require("opentok");
+const bodyparser = require("body-parser");
+const cookies = require("cookie-parser");
+const csrf = require("csurf");
+
+const storage = require("./libs/storage");
+const utils = require("./libs/utils");
+
+// Load config from file & merge with env vars ---
+let config = utils.load_config(process.env.PWD);
+
+// Setup OpenTok ---------------------------------
+const OT = new opentok(config.opentok.api_key, config.opentok.api_secret);
+
+// Setup storage
+let db = new storage(config.app.storage_dir);
+
+// Create app instance ---------------------------
+let app = express();
+
+// Enable body-parser ----------------------------
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: true }));
+
+// Enable cookie-parser --------------------------
+app.use(cookies());
+
+// Enable CSRF
+app.use(csrf({ cookie: true }));
+
+// Security measures -----------------------------
+app.disable("x-powered-by");
+
+// Mount middlewares -----------------------------
+app.use((req, res, next) => {
+  req.config = config;          // Add config
+  req.OT = OT;                  // Add OpenTok SDK instance
+  req.db = db;                  // Add db connection
+  req.utils = utils;            // Add utility functions
+  next();
+});
+
+// Mount routes ----------------------------------;
+
+// Mount webinar routes
+app.use("/api", require("./api"));
+
+// Mount the `./app` dir to web-root as static.
+app.use("/", express.static("./assets"));
+
+
+// Start server ----------------------------------
+let port = config.app.port || 8080;
+
+if (!config.ssl.enabled) {
+  // Start as Non-ssl
+  app.listen(port, () => {
+    console.log(`Listening on port ${port}...`);
+  });
+} else {
+  // Start as SSL
+  const https = require("https");
+  const fs = require("fs");
+  const https_options = {
+    key: fs.readFileSync(config.ssl.key),
+    cert: fs.readFileSync(config.ssl.cert),
+    passphrase: config.ssl.passphrase
+  };
+  https.createServer(https_options, app).listen(port, () => {
+    console.log(`Listening on secure port ${port}...`);
+  });
+}

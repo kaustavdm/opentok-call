@@ -1,0 +1,37 @@
+{
+  "name": "opentok-call",
+  "version": "0.0.1",
+  "description": "Simple one-to-one call mobile-web application based on OpenTok",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaustavdm/opentok-call.git"
+  },
+  "engines": {
+    "node": "6.9.x",
+    "npm": "3.x"
+  },
+  "keywords": [
+    "call",
+    "tokbox",
+    "opentok",
+    "webrtc"
+  ],
+  "author": "Kaustav Das Modak <kaustav.dasmodak@yahoo.co.in>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/kaustavdm/opentok-call/issues"
+  },
+  "homepage": "https://github.com/kaustavdm/opentok-call#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "csurf": "^1.9.0",
+    "express": "^4.14.0",
+    "opentok": "^2.4.0"
+  }
+}
