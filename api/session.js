@@ -18,12 +18,21 @@ let load_call = (req, res, next) => {
   next();
 };
 
+/**
+ * Generate slug
+ *
+ * @returns {String} A 7-character slug, hyphenated in between.
+ */
+let create_slug = () => {
+  var id = crypto.randomBytes(3).toString("hex");
+  return [id.slice(0, 3), id.slice(3)].join("-");
+};
 
 /**
  * Handler for creating session and registering OpenTok session ID
  */
 router.get("/create", (req, res) => {
-  let slug = req.query.slug || crypto.randomBytes(3).toString("hex");
+  let slug = req.query.slug || create_slug();
   // Create session in OpenTok
   req.OT.createSession({ mediaMode: "routed" }, function (err, session) {
     if (err) {
