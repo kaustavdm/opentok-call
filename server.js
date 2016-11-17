@@ -56,7 +56,7 @@ app.use((req, res, next) => {
 app.use("/api", require("./api"));
 
 // Mount the `./app` dir to web-root as static.
-app.use("/", express.static("./assets"));
+app.use("/", express.static("./app"));
 
 
 // Start server ----------------------------------
