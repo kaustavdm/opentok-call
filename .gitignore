@@ -29,3 +29,6 @@ tramp
 # Ignore default ssl certificate and key
 /key.pem
 /cert.pem
+
+# Ignore compiled js files
+/assets/js/tags.js

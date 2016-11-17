@@ -41,6 +41,9 @@ app.use(csrf({ cookie: true }));
 // Security measures -----------------------------
 app.disable("x-powered-by");
 
+// Set view engine -------------------------------
+app.set("view engine", "ejs");
+
 // Mount middlewares -----------------------------
 app.use((req, res, next) => {
   req.config = config;          // Add config
@@ -52,11 +55,16 @@ app.use((req, res, next) => {
 
 // Mount routes ----------------------------------;
 
-// Mount webinar routes
+// Mount homepage route
+app.get("/", (req, res) => {
+  res.render("home");
+});
+
+// Mount API routes
 app.use("/api", require("./api"));
 
-// Mount the `./app` dir to web-root as static.
-app.use("/", express.static("./app"));
+// Mount the `./assets` dir to web-root as static.
+app.use("/", express.static("./assets"));
 
 
 // Start server ----------------------------------
