@@ -30,7 +30,6 @@
   },
   "homepage": "https://github.com/kaustavdm/opentok-call#readme",
   "dependencies": {
-    "babel-core": "^6.18.2",
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
     "csurf": "^1.9.0",
