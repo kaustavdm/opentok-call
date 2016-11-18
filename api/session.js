@@ -83,7 +83,8 @@ router.get("/:id/token", load_call, (req, res) => {
   req.utils.success_res(res, "Token created", {
     token: token,
     ot_session_id: req.call_data.ot_session_id,
-    ot_api_key: req.config.opentok.api_key
+    ot_api_key: req.config.opentok.api_key,
+    call_id: req.call_data.id
   });
 });
 

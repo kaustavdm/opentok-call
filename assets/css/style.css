@@ -18,6 +18,10 @@
     margin: auto;
 }
 
+.align-center > button {
+    margin: 0.5rem;
+}
+
 .align-center--50vh {
     height: 50vh;
 }

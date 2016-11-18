@@ -10,19 +10,25 @@
             <!-- Your video will load here -->
         </div>
         <div class="mdl-color-text--grey-600 mdl-card__supporting-text" hide={ isLive || connecting }>
-            Once you are ready, hit the button below
+            Once you are ready, hit the Join Call button below.
         </div>
-        <div class="mdl-card__actions" hide={ isLive || connecting }>
+        <div class="mdl-card__actions align-center" show="{ showURL || isLive }">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="share_url" value="{ callurl }" name="share_url">
+                <label class="mdl-textfield__label" for="share_url">Share this URL</label>
+            </div>
+        </div>
+        <div class="mdl-card__actions align-center">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                    onclick={ share } hide={ isLive || connecting }><i class="material-icons">share</i> Share Call URL</button>
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
-                    onclick={ joinCall }><i class="material-icons">live_tv</i> Join call</button>
+                    onclick={ joinCall } hide={ isLive || connecting }><i class="material-icons">live_tv</i> Join call</button>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                    onclick={ endCall } show={ isLive }>End call</button>
         </div>
-        <div class="mdl-card__actions" hide={ isLive || connecting }>
+        <div class="mdl-card__actions align-center" hide={ isLive || connecting }>
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
                     onclick={ leave }><i class="material-icons">arrow_back</i> Leave</button>
-        </div>
-        <div class="mdl-card__actions align-center" show={ isLive }>
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
-                    onclick={ endCall }>End call</button>
         </div>
     </div>
 
@@ -33,6 +39,14 @@
      this.title = "Test your looks";
      this.connecting = false
      this.isLive = false;
+     this.showURL = false;
+
+     this.share = function () {
+         this.showURL = true;
+         this.callurl = location.origin + "/#call/" + opts.data.call_id;
+         this.update();
+         this.share_url.focus();
+     };
 
      this.endCall = function () {
          opts.app.trigger("destroy:publisher", publisher);
@@ -68,6 +82,7 @@
                      return;
                  }
                  self.isLive = true;
+                 self.connecting = false;
                  opts.app.trigger("success:publish");
                  self.title = "On call";
                  self.update();
