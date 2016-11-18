@@ -4,6 +4,15 @@
   "use strict";
 
   /**
+   * Register service worker
+   */
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+             .register('/service-worker.js')
+             .then(function() { console.log('Service Worker Registered'); });
+  }
+
+  /**
    * Main App constructor with `riot.observable` interface.
    */
   function App () {
