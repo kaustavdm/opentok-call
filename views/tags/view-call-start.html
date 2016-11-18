@@ -1,0 +1,108 @@
+<view-call-start>
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+        <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">{ title }</h2>
+        </div>
+        <div id="theirview" show={isLive} class="mdl-card__supporting-text align-center">
+            <!-- The video feed from other participants will load here -->
+        </div>
+        <div id="myview" class="mdl-card__supporting-text align-center">
+            <!-- Your video will load here -->
+        </div>
+        <div class="mdl-color-text--grey-600 mdl-card__supporting-text" hide={ isLive || connecting }>
+            Once you are ready, hit the button below
+        </div>
+        <div class="mdl-card__actions" hide={ isLive || connecting }>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                    onclick={ joinCall }><i class="material-icons">live_tv</i> Join call</button>
+        </div>
+        <div class="mdl-card__actions" hide={ isLive || connecting }>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                    onclick={ leave }><i class="material-icons">arrow_back</i> Leave</button>
+        </div>
+        <div class="mdl-card__actions align-center" show={ isLive }>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                    onclick={ endCall }>End call</button>
+        </div>
+    </div>
+
+    <script>
+     var publisher,
+         session;
+
+     this.title = "Test your looks";
+     this.connecting = false
+     this.isLive = false;
+
+     this.endCall = function () {
+         opts.app.trigger("destroy:publisher", publisher);
+         opts.app.trigger("destroy:session", session);
+         riot.route("end");
+     };
+
+     this.joinCall = function () {
+         var self = this;
+         this.connecting = true;
+         this.title = "Joining call...";
+         session = OT.initSession(opts.data.ot_api_key, opts.data.ot_session_id);
+         session.connect(opts.data.token, function (err) {
+             if (err) {
+                 console.log("Error connecting to session", err);
+                 opts.app.trigger("error:connectSession", {error: err });
+                 return;
+             }
+             session.on("streamCreated", function (evt) {
+                 session.subscribe(evt.stream, "theirview", { insertMode: "append" }, function (err) {
+                     if (err) {
+                         console.log("Error subscribing to stream", err);
+                         opts.app.trigger("error:subscribe", {error: err });
+                         return;
+                     }
+                     opts.app.trigger("success:subscribe");
+                 });
+             });
+             session.publish(publisher, function (err) {
+                 if (err) {
+                     console.log("Error publishing stream", err);
+                     opts.app.trigger("error:publish", {error: err });
+                     return;
+                 }
+                 self.isLive = true;
+                 opts.app.trigger("success:publish");
+                 self.title = "On call";
+                 self.update();
+             });
+         });
+     }
+
+     opts.app.one("destroy:publisher", function (p) {
+         if (p && p.destroy) {
+             p.destroy();
+         }
+         p = null;
+     });
+
+     opts.app.one("destroy:session", function (s) {
+         if (s && s.disconnect) {
+             s.disconnect();
+         }
+         s = null;
+     });
+
+     this.leave = function () {
+         opts.app.trigger("destroy:publisher", publisher);
+         opts.app.trigger("destroy:session", session);
+         riot.route("");
+     }
+
+     this.on("mount", function () {
+         publisher = OT.initPublisher(this.root.querySelector("#myview"), { insertMode: "append" }, function (err) {
+             if (err) {
+                 opts.app.trigger("error:createPublisher", {error: err, session: session });
+                 return;
+             }
+             opts.app.trigger("success:createPublisher", { publisher: publisher, session: session });
+         });
+     });
+    </script>
+</view-call-start>

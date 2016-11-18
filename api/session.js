@@ -67,6 +67,8 @@ router.get("/:id/token", load_call, (req, res) => {
   let slug = req.query.slug || crypto.randomBytes(3).toString("hex");
   let token;
 
+  res.header("Access-Control-Allow-Origin", "*");
+
   try {
     token = req.OT.generateToken(req.call_data.ot_session_id, {
       role: "publisher",

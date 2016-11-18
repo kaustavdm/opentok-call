@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run clean && npm run compile_tags && node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile_tags": "node_modules/.bin/riot ./tags/ ./assets/js/tags.js",
+    "compile_tags": "node_modules/.bin/riot --ext html ./views/tags/ ./assets/js/tags.js",
     "clean": "rm -f ./assets/js/tags.js"
   },
   "repository": {

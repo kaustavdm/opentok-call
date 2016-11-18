@@ -1,0 +1,23 @@
+#content {
+    width: 90%;
+    margin: 1rem auto;
+}
+
+.mdl-card--center {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.align-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.align-center > div {
+    margin: auto;
+}
+
+.align-center--50vh {
+    height: 50vh;
+}

@@ -1,0 +1,20 @@
+<view-call-end>
+    <div class="mdl-card mdl-shadow--4dp mdl-card--center">
+        <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">Call ended</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+            This call is done. You can always start another later on.
+        </div>
+        <div class="mdl-card__actions">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                    onclick={ tohome }><i class="material-icons">arrow_back</i> Back to home</button>
+        </div>
+    </div>
+
+    <script>
+     this.tohome = function () {
+         riot.route("");
+     };
+    </script>
+</view-call-end>

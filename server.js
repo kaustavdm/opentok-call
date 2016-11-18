@@ -63,6 +63,11 @@ app.get("/", (req, res) => {
 // Mount API routes
 app.use("/api", require("./api"));
 
+// Catcher for call ids to redirect to frontend handlers
+app.get("/call/:id", (req, res) => {
+  res.redirect("/#call/" + req.params.id);
+});
+
 // Mount the `./assets` dir to web-root as static.
 app.use("/", express.static("./assets"));
 
