@@ -40,10 +40,11 @@
      this.connecting = false
      this.isLive = false;
      this.showURL = false;
+     console.log(opts.data);
 
      this.share = function () {
          this.showURL = true;
-         this.callurl = location.origin + "/#call/" + opts.data.call_id;
+         this.callurl = opts.data.call_url;
          this.update();
          this.share_url.focus();
      };

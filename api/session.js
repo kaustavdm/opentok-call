@@ -67,8 +67,6 @@ router.get("/:id/token", load_call, (req, res) => {
   let slug = req.query.slug || crypto.randomBytes(3).toString("hex");
   let token;
 
-  res.header("Access-Control-Allow-Origin", "*");
-
   try {
     token = req.OT.generateToken(req.call_data.ot_session_id, {
       role: "publisher",
@@ -84,7 +82,8 @@ router.get("/:id/token", load_call, (req, res) => {
     token: token,
     ot_session_id: req.call_data.ot_session_id,
     ot_api_key: req.config.opentok.api_key,
-    call_id: req.call_data.id
+    call_id: req.call_data.id,
+    call_url: `${req.config.app.base_url}/#call/${req.call_data.id}`
   });
 });
 
