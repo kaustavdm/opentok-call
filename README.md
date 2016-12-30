@@ -3,7 +3,7 @@ OpenTok PWA
 
 A simple one-to-one call progressive web application (PWA) based on OpenTok.
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/kaustavdm/opentok-call) [Demo](https://opentok-call.kaustavdm.in)
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/kaustavdm/opentok-call) [![Demo](https://img.shields.io/badge/demo-live-green.svg)](https://opentok-call.kaustavdm.in)
 
 ## Requirements
 
