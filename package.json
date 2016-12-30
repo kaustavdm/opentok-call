@@ -1,17 +1,19 @@
 {
-  "name": "opentok-call",
+  "name": "opentok-pwa",
   "version": "0.0.1",
-  "description": "Simple one-to-one call mobile-web application based on OpenTok",
+  "description": "Simple one-to-one call progressive web application (PWA) based on OpenTok.",
   "main": "server.js",
+  "private": true,
   "scripts": {
     "start": "npm run clean && npm run compile_tags && node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile_tags": "node_modules/.bin/riot --ext html ./views/tags/ ./assets/js/tags.js",
-    "clean": "rm -f ./assets/js/tags.js"
+    "clean": "rm -f ./assets/js/tags.js",
+    "certs": "openssl req -newkey rsa:2048 -nodes -keyout key.pem -x509 -days 365 -out cert.pem"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kaustavdm/opentok-call.git"
+    "url": "git+https://github.com/kaustavdm/opentok-pwa.git"
   },
   "engines": {
     "node": "6.9.x",
@@ -26,9 +28,9 @@
   "author": "Kaustav Das Modak <kaustav.dasmodak@yahoo.co.in>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/kaustavdm/opentok-call/issues"
+    "url": "https://github.com/kaustavdm/opentok-pwa/issues"
   },
-  "homepage": "https://github.com/kaustavdm/opentok-call#readme",
+  "homepage": "https://github.com/kaustavdm/opentok-pwa#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",

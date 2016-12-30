@@ -1,5 +1,5 @@
 /**
- * OpenTok-Call main server script
+ * OpenTok-PWA main server script
  *
  * This script starts the application server by mounting all the
  * necessary routes, loading configuration and creating a handler to

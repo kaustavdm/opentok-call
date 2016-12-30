@@ -1,5 +1,5 @@
 /**
- * OpenTok-Call config file
+ * OpenTok-PWA config file
  *
  * Copy this file to `config.js` in the same directory and edit that
  * file instead.
